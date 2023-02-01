@@ -6,6 +6,7 @@ const routes = require('./controllers');
 const helpers = require('./utils/helpers');
 
 const sequelize = require('./config/connection');
+const bodyParser = require('body-parser');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
@@ -24,14 +25,16 @@ const sess = {
   },
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+  // store: new SequelizeStore({
+  //   db: sequelize
+  // })
 };
 
+// middleware
+
+app.use(bodyParser.json());
 app.use(session(sess));
 
-// Inform Express.js on which template engine to use
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
